@@ -11,25 +11,31 @@ body {
 
 #quiz-container {
     margin: 0 auto;
-    width: 50%;
+    width: 60%;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align all elements inside the quiz container */
 }
 
 #answers {
     list-style-type: none;
     padding: 0;
+    width: 60%;
 }
 
 #answers li {
+    width: 100%; /* Width adjusts with the container */
     margin-bottom: 10px;
     padding: 10px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
     cursor: pointer;
+    text-align: center; /* Center text inside the answer box */
 }
 
 #answers li:hover {
@@ -44,10 +50,16 @@ button {
     background-color: #007bff;
     color: white;
     cursor: pointer;
+    width: 150px; /* Fixed width for all buttons */
+    text-align: center; /* Center the text inside the button */
 }
 
 #submit-btn{
 	background-color: rgb(0, 207, 0);
+}
+
+#direction-btn{
+    width: 100px;
 }
 
 button:hover {
