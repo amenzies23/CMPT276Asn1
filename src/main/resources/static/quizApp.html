@@ -5,22 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/css/quizApp.css">
+  <script src="quizLogic.js"></script>
 </head>
-<body>
+<body onload="start()">
 	<header>Interactive Quiz</header>
 	<div id="quiz-container">
+        
         <div id="question">Question text goes here</div>
         <ul id="answers">
             <!-- List of multiple choice answers -->
-            <li>Answer 1</li>
-            <li>Answer 2</li>
-            <li>Answer 3</li>
-            <li>Answer 4</li>
+            <li id="a1">Answer 1</li>
+            <li id="a2">Answer 2</li>
+            <li id="a3">Answer 3</li>
+            <li id="a4">Answer 4</li>
         </ul>
         <div id="btn-container">
-            <button id="direction-btn">Prev</button>
+            <button id="prev-btn">Prev</button>
 		    <button id="submit-btn" onclick="showResults()">Submit</button>
-            <button id="direction-btn">Next</button>
+            <button id="next-btn">Next</button>
+        </div>
+    </div>
+
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Quiz Results</h2>
+            <div id="resultText">Your score is: </div>
         </div>
     </div>
 </body>
