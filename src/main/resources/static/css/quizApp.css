@@ -24,11 +24,13 @@ body {
 #answers {
     list-style-type: none;
     padding: 0;
+    margin: auto; /* Center the list */
     width: 60%;
+    box-sizing: border-box; /* Include padding and borders in the element's total width and height */
 }
 
 #answers li {
-    width: 100%; /* Width adjusts with the container */
+    width: calc(100% - 20px); /* Adjust width considering padding */
     margin-bottom: 10px;
     padding: 10px;
     background-color: #f9f9f9;
@@ -36,6 +38,8 @@ body {
     border-radius: 4px;
     cursor: pointer;
     text-align: center; /* Center text inside the answer box */
+    list-style: none; /* Remove default list styling */
+    box-sizing: border-box; /* Include padding and borders in the element's total width and height */
 }
 
 #answers li:hover {

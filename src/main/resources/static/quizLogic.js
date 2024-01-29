@@ -24,41 +24,17 @@ let q5 = {
     a: ["2", "1/2", "x^2", "y"],
     correct: "x^2"
 }
-let q6 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
-let q7 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
-let q8 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
-let q9 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
-let q10 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
 
-let questions = [q1,q2,q3,q4,q5,q6,q7,q8,q9,q10];
+let questions = [q1,q2,q3,q4,q5];
 
 let currentQuestionIndex = 1;
-let selectedAnswers = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+let selectedAnswers = [-1,-1,-1,-1,-1]
 
 document.addEventListener('DOMContentLoaded', (event) => {
     start();
     addAnswerListeners();
     addNavigationListeners();
+    setupModalEvents();
 });
 
 function start(){
@@ -67,6 +43,7 @@ function start(){
 
 function displayQuestion(index){
     document.getElementById("question").textContent = questions[index].q;
+    document.getElementById("num").textContent = "Question " + (currentQuestionIndex + 1);
     document.getElementById("a1").textContent = questions[index].a[0];
     document.getElementById("a2").textContent = questions[index].a[1];
     document.getElementById("a3").textContent = questions[index].a[2];
@@ -113,21 +90,43 @@ function addNavigationListeners() {
     });
 }
 
+//Function to show the results at the end of the quiz
 function showResults() {
     let score = 0;
-    let resultSummary = "Your score is: ";
+    let resultSummary = "Your score is: <br>";
 
     for (let i = 0; i < questions.length; i++) {
         if (questions[i].correct === selectedAnswers[i]) {
             score++;
-            resultSummary += "\nQuestion " + (i + 1) + ": Correct";
+            resultSummary += " Question " + (i + 1) + ": Correct<br>";
         } else {
-            resultSummary += "\nQuestion " + (i + 1) + ": Incorrect";
+            resultSummary += " Question " + (i + 1) + ": Incorrect<br>";
         }
     }
 
-    document.getElementById("resultText").textContent = resultSummary + "\n\nTotal score: " + score + "/" + questions.length;
+    document.getElementById("resultText").innerHTML = resultSummary + "Total score: " + score + "/" + questions.length;
     openModal();
+}
+
+//When DOM loads, we setup the events for the modal. This will show the results and add functionality for closing the result box
+function setupModalEvents() {
+    // Get the modal
+    var modal = document.getElementById("resultsModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        closeModal();
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
 }
 
 function openModal() {
@@ -136,22 +135,4 @@ function openModal() {
 
 function closeModal() {
     document.getElementById("resultsModal").style.display = "none";
-}
-
-// Get the modal
-var modal = document.getElementById("resultsModal");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    closeModal();
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        closeModal();
-    }
 }
