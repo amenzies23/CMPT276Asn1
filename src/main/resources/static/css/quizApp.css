@@ -125,5 +125,22 @@ button:hover {
 }
 
 .selected-answer {
-    background-color: #d0d0d061; /* Darker background for selected answer */
+    background-color: rgb(84, 84, 84);; /* Darker background for selected answer */
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#num{
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#question{
+    font-size: 18px;
+    margin-bottom: 10px;
 }

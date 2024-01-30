@@ -1,33 +1,32 @@
-let q1 = {
-    q: "What is the derivative of f(x) = x^2?",
-    a: ["2x", "2x^3", "2x^2", "0"],
-    correct: "2x"
-}
-let q2 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
-let q3 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
+let questions = [
+    {
+        q: "Which planet is known as the 'Red Planet'?",
+        a: ["Mercury", "Earth", "Mars", "Venus"],
+        correct: "Mars"
+    },
+    {
+        q: "What is the capital city of France?",
+        a: ["Rome", "Berlin", "Paris", "Madrid"],
+        correct: "Paris"
+    },
+    {
+        q: "Who wrote the play 'Romeo and Juliet'?",
+        a: ["William Shakespeare", "Charles Dickens", "Jane Austen", "Mark Twain"],
+        correct: "William Shakespeare"
+    },
+    {
+        q: "What is the largest mammal in the world?",
+        a: ["African Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+        correct: "Blue Whale"
+    },
+    {
+        q: "What is the chemical symbol for gold?",
+        a: ["Au", "Ag", "Pt", "Pb"],
+        correct: "Au"
+    }
+];
 
-let q4 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
-let q5 = {
-    q: "What is the integral of g(x) = 1/2x",
-    a: ["2", "1/2", "x^2", "y"],
-    correct: "x^2"
-}
-
-let questions = [q1,q2,q3,q4,q5];
-
-let currentQuestionIndex = 1;
+let currentQuestionIndex = 0;
 let selectedAnswers = [-1,-1,-1,-1,-1]
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -40,22 +39,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function start(){
     displayQuestion(currentQuestionIndex);
 }
+//function to display the questions
+function displayQuestion(index) {
+    //get the HTML elements for the question, answers and current question
+    document.getElementById("question").innerHTML = questions[index].q;
+    document.getElementById("num").innerHTML = "Question " + (index + 1);
+    const answers = document.getElementById('answers').getElementsByTagName('li');
 
-function displayQuestion(index){
-    document.getElementById("question").textContent = questions[index].q;
-    document.getElementById("num").textContent = "Question " + (currentQuestionIndex + 1);
-    document.getElementById("a1").textContent = questions[index].a[0];
-    document.getElementById("a2").textContent = questions[index].a[1];
-    document.getElementById("a3").textContent = questions[index].a[2];
-    document.getElementById("a4").textContent = questions[index].a[3];
+    for (let i = 0; i < answers.length; i++) {
+        answers[i].innerHTML = questions[index].a[i];
+
+        // Reapply the 'selected-answer' class if this answer is the one stored in selectedAnswers
+        // if (selectedAnswers[index].textContent === answers[i].textContent) {
+        //     answers[i].classList.add('selected-answer');
+        // }
+    }
+    document.getElementById('next-btn').disabled = selectedAnswers[index] === -1;
 }
 
 function addAnswerListeners() {
     const answersList = document.getElementById('answers');
     const answers = answersList.getElementsByTagName('li');
+    const nextButton = document.getElementById('next-btn');
     
     for (let i = 0; i < answers.length; i++) {
         answers[i].addEventListener('click', function() {
+            nextButton.disabled = false;
             // Remove 'selected-answer' class from all answers
             for (let j = 0; j < answers.length; j++) {
                 answers[j].classList.remove('selected-answer');
@@ -63,10 +72,9 @@ function addAnswerListeners() {
 
             // Add 'selected-answer' class to clicked answer
             this.classList.add('selected-answer');
-
             // Store the selected answer
-            selectedAnswers[currentQuestionIndex] = this.textContent;
-            console.log('Selected Answer:', selectedAnswers[currentQuestionIndex]);
+            selectedAnswers[currentQuestionIndex] = answers[i];
+            console.log('Selected Answer:', selectedAnswers[currentQuestionIndex].textContent);
         });
     }
 }
@@ -74,11 +82,14 @@ function addAnswerListeners() {
 function addNavigationListeners() {
     const prevButton = document.getElementById('prev-btn');
     const nextButton = document.getElementById('next-btn');
+    //disabling the next button by default so the user cant go forward until selecting an answer
+    nextButton.disabled = true;
 
     prevButton.addEventListener('click', function() {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             displayQuestion(currentQuestionIndex);
+            nextButton.disabled = selectedAnswers[currentQuestionIndex] === -1;
         }
     });
 
@@ -86,6 +97,7 @@ function addNavigationListeners() {
         if (currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
             displayQuestion(currentQuestionIndex);
+            nextButton.disabled = true;
         }
     });
 }
@@ -96,7 +108,7 @@ function showResults() {
     let resultSummary = "Your score is: <br>";
 
     for (let i = 0; i < questions.length; i++) {
-        if (questions[i].correct === selectedAnswers[i]) {
+        if (questions[i].correct === selectedAnswers[i].textContent) {
             score++;
             resultSummary += " Question " + (i + 1) + ": Correct<br>";
         } else {
