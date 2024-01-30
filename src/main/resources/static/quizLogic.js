@@ -41,40 +41,32 @@ function start(){
 }
 //function to display the questions
 function displayQuestion(index) {
-    //get the HTML elements for the question, answers and current question
     document.getElementById("question").innerHTML = questions[index].q;
     document.getElementById("num").innerHTML = "Question " + (index + 1);
     const answers = document.getElementById('answers').getElementsByTagName('li');
 
     for (let i = 0; i < answers.length; i++) {
         answers[i].innerHTML = questions[index].a[i];
-
-        // Reapply the 'selected-answer' class if this answer is the one stored in selectedAnswers
-        // if (selectedAnswers[index].textContent === answers[i].textContent) {
-        //     answers[i].classList.add('selected-answer');
-        // }
+        answers[i].classList.remove('selected-answer');
+        if (selectedAnswers[index] === answers[i].textContent) {
+            answers[i].classList.add('selected-answer');
+        }
     }
     document.getElementById('next-btn').disabled = selectedAnswers[index] === -1;
 }
 
 function addAnswerListeners() {
-    const answersList = document.getElementById('answers');
-    const answers = answersList.getElementsByTagName('li');
+    const answers = document.getElementById('answers').getElementsByTagName('li');
     const nextButton = document.getElementById('next-btn');
     
     for (let i = 0; i < answers.length; i++) {
         answers[i].addEventListener('click', function() {
             nextButton.disabled = false;
-            // Remove 'selected-answer' class from all answers
             for (let j = 0; j < answers.length; j++) {
                 answers[j].classList.remove('selected-answer');
             }
-
-            // Add 'selected-answer' class to clicked answer
             this.classList.add('selected-answer');
-            // Store the selected answer
-            selectedAnswers[currentQuestionIndex] = answers[i];
-            console.log('Selected Answer:', selectedAnswers[currentQuestionIndex].textContent);
+            selectedAnswers[currentQuestionIndex] = this.textContent;
         });
     }
 }
@@ -98,6 +90,7 @@ function addNavigationListeners() {
             currentQuestionIndex++;
             displayQuestion(currentQuestionIndex);
             nextButton.disabled = true;
+            nextButton.disabled = selectedAnswers[currentQuestionIndex] === -1;
         }
     });
 }
@@ -108,7 +101,7 @@ function showResults() {
     let resultSummary = "Your score is: <br>";
 
     for (let i = 0; i < questions.length; i++) {
-        if (questions[i].correct === selectedAnswers[i].textContent) {
+        if (questions[i].correct === selectedAnswers[i]) {
             score++;
             resultSummary += " Question " + (i + 1) + ": Correct<br>";
         } else {
