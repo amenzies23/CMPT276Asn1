@@ -65,9 +65,7 @@ function addAnswerListeners() {
             for (let j = 0; j < answers.length; j++) {
                 answers[j].classList.remove('selected-answer');
             }
-            this.classList.add('selected-answer');
-            selectedAnswers[currentQuestionIndex] = this.textContent;
-        });
+         
     }
 }
 
@@ -98,15 +96,14 @@ function addNavigationListeners() {
 //Function to show the results at the end of the quiz
 function showResults() {
     let score = 0;
-    let resultSummary = "Your score is: <br>";
+    let resultSummary = "Your results are: <br>";
 
     for (let i = 0; i < questions.length; i++) {
         if (questions[i].correct === selectedAnswers[i]) {
             score++;
-            resultSummary += " Question " + (i + 1) + ": Correct<br>";
-        } else {
-            resultSummary += " Question " + (i + 1) + ": Incorrect<br>";
         }
+        resultSummary += " Question " + (i + 1) + ": Your answer is:  " + selectedAnswers[i] + "<br>";
+        resultSummary += "The correct answer is: " + questions[i].correct + "<br>";
     }
 
     document.getElementById("resultText").innerHTML = resultSummary + "Total score: " + score + "/" + questions.length;
