@@ -79,6 +79,10 @@ button {
 	background-color: rgb(0, 207, 0);
     flex: 1 1 50%;
 }
+#submit-btn:disabled{
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
 
 #prev-btn{
     flex: 1 1 25%;
@@ -86,6 +90,16 @@ button {
 
 #next-btn{
     flex: 1 1 25%;
+}
+
+button:disabled{
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#next-btn:disabled{
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 button:hover {
@@ -142,11 +156,6 @@ button:hover {
     
 }
 
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
 #num{
     font-weight: bold;
     font-size: 20px;
@@ -157,4 +166,27 @@ button:disabled {
 #question{
     font-size: 18px;
     margin-bottom: 10px;
+}
+
+.result-summary {
+    text-align: center;
+}
+
+.question-result {
+    margin-bottom: 20px;
+    text-align: left; /* Left-align the text within each question result */
+    width: 30%; /* Adjust the width as needed */
+    margin-left: auto; /* These two lines center the .question-result block */
+    margin-right: auto;
+}
+
+.user-answer, .correct-answer {
+    margin-left: 20px; /* Indentation for answers */
+    display: block; /* Ensure each answer is on a new line */
+}
+
+.total-score {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center; /* Center-align the total score */
 }

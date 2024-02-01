@@ -56,16 +56,24 @@ function displayQuestion(index) {
 }
 
 function addAnswerListeners() {
-    const answers = document.getElementById('answers').getElementsByTagName('li');
+    const answersList = document.getElementById('answers');
+    const answers = answersList.getElementsByTagName('li');
+    const submitButton = document.getElementById('submit-btn');
     const nextButton = document.getElementById('next-btn');
     
     for (let i = 0; i < answers.length; i++) {
         answers[i].addEventListener('click', function() {
-            nextButton.disabled = false;
+            // Logic for selecting an answer
             for (let j = 0; j < answers.length; j++) {
                 answers[j].classList.remove('selected-answer');
             }
-         
+            this.classList.add('selected-answer');
+            selectedAnswers[currentQuestionIndex] = this.textContent; // Store the selected answer
+            nextButton.disabled = false;
+            // Check if all questions have been answered
+            const allAnswered = selectedAnswers.every(answer => answer !== -1 && answer !== null && answer !== '');
+            submitButton.disabled = !allAnswered; // Enable submit button only if all questions are answered
+        });
     }
 }
 
@@ -96,18 +104,25 @@ function addNavigationListeners() {
 //Function to show the results at the end of the quiz
 function showResults() {
     let score = 0;
-    let resultSummary = "Your results are: <br>";
+    let questionsResultsContent = "";
 
     for (let i = 0; i < questions.length; i++) {
+        questionsResultsContent += `<div class='question-result'>
+            <strong>Question ${i + 1}:</strong><br>
+            <span class='user-answer'>Your answer: ${selectedAnswers[i]}</span><br>
+            <span class='correct-answer'>Correct answer: ${questions[i].correct}</span>
+        </div>`;
+
         if (questions[i].correct === selectedAnswers[i]) {
             score++;
         }
-        resultSummary += " Question " + (i + 1) + ": Your answer is:  " + selectedAnswers[i] + "<br>";
-        resultSummary += "The correct answer is: " + questions[i].correct + "<br>";
     }
 
-    document.getElementById("resultText").innerHTML = resultSummary + "Total score: " + score + "/" + questions.length;
+    document.getElementById("questionsResults").innerHTML = questionsResultsContent;
+    document.getElementById("totalScore").innerHTML = `Total score: ${score}/${questions.length}`;
     openModal();
+    //Adding an event listener for clicking the restart quiz button
+    document.getElementById('restart-btn').addEventListener('click', restartQuiz);
 }
 
 //When DOM loads, we setup the events for the modal. This will show the results and add functionality for closing the result box
@@ -137,4 +152,13 @@ function openModal() {
 
 function closeModal() {
     document.getElementById("resultsModal").style.display = "none";
+}
+//Function to restart the quiz - resets everything back to default
+function restartQuiz() {
+    currentQuestionIndex = 0;
+    selectedAnswers.fill(-1);
+    document.getElementById('next-btn').disabled = true; // Ensure next button is disabled initially
+    document.getElementById('submit-btn').disabled = true; // Ensure submit button is disabled until all answers are selected
+    closeModal();
+    displayQuestion(currentQuestionIndex);
 }
