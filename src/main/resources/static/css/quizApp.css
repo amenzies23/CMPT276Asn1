@@ -11,7 +11,7 @@ body {
 
 #quiz-container {
     margin: 0 auto;
-    width: 60%;
+    width: 50%;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -23,15 +23,17 @@ body {
 }
 
 #answers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     list-style-type: none;
     padding: 0;
     margin: auto; /* Center the list */
-    width: 60%;
-    box-sizing: border-box; /* Include padding and borders in the element's total width and height */
+    width: 50%;
 }
 
 #answers li {
-    width: calc(100% - 20px); /* Adjust width considering padding */
+    width: calc(100% - 25x); /* This probably isnt the best way to do this but I was fighitng with centering the boxes */
     margin-bottom: 10px;
     padding: 10px;
     background-color: #f9f9f9;
@@ -39,8 +41,6 @@ body {
     border-radius: 4px;
     cursor: pointer;
     text-align: center; /* Center text inside the answer box */
-    list-style: none; /* Remove default list styling */
-    box-sizing: border-box; /* Include padding and borders in the element's total width and height */
 }
 
 #answers li:hover {
@@ -61,7 +61,7 @@ button {
     padding: 10px 20px;
     margin: 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: #007bff;
     color: white;
     cursor: pointer;
@@ -77,7 +77,7 @@ button {
 
 #submit-btn{
 	background-color: rgb(0, 207, 0);
-    flex: 1 1 50%;
+    flex: 0 1 40%;
 }
 #submit-btn:disabled{
     background-color: #cccccc;
@@ -85,11 +85,13 @@ button {
 }
 
 #prev-btn{
-    flex: 1 1 25%;
+    flex: 0 1 10%;
+    margin-right: 100px;
 }
 
 #next-btn{
-    flex: 1 1 25%;
+    flex: 0 1 10%;
+    margin-left: 100px;
 }
 
 button:disabled{
@@ -97,13 +99,13 @@ button:disabled{
     cursor: not-allowed;
 }
 
-#next-btn:disabled{
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
 button:hover {
     background-color: #0056b3;
+}
+
+button:hover:disabled{
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 #results {
@@ -115,29 +117,27 @@ button:hover {
 }
 
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
     padding-top: 60px;
 }
 
-/* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto; /* 5% from the top and centered */
+    margin: 5% auto; 
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%; 
 }
 
-/* The Close Button */
 .close {
     color: #aaa;
     float: right;
@@ -150,10 +150,6 @@ button:hover {
     color: black;
     text-decoration: none;
     cursor: pointer;
-}
-
-#restart-btn{
-    
 }
 
 #num{
@@ -174,19 +170,19 @@ button:hover {
 
 .question-result {
     margin-bottom: 20px;
-    text-align: left; /* Left-align the text within each question result */
-    width: 30%; /* Adjust the width as needed */
-    margin-left: auto; /* These two lines center the .question-result block */
+    text-align: left; 
+    width: 30%; 
+    margin-left: auto; 
     margin-right: auto;
 }
 
 .user-answer, .correct-answer {
-    margin-left: 20px; /* Indentation for answers */
-    display: block; /* Ensure each answer is on a new line */
+    margin-left: 20px; 
+    display: block; 
 }
 
 .total-score {
     margin-top: 20px;
     font-weight: bold;
-    text-align: center; /* Center-align the total score */
+    text-align: center; 
 }

@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Quiz</title>
   <link rel="stylesheet" href="/css/quizApp.css">
   <script src="quizLogic.js"></script>
 </head>
-<body onload="start()">
+<body>
 	<header>Interactive Quiz</header>
 	<div id="quiz-container">
         <div id="num">#</div>
@@ -24,11 +24,11 @@
             <button id="next-btn">Next</button>
         </div>
     </div>
-
+    <!--div for a modal to open once the submit button is pressed. Will display the results-->
     <div id="resultsModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Quiz Results</h2>
+            <h2>Quiz Results</h2> 
             <div id="resultSummary">Your results are:</div>
             <div id="questionsResults"></div> <!-- Placeholder for individual question results -->
             <div id="totalScore"></div> <!-- Placeholder for the total score -->

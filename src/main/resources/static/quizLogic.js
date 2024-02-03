@@ -1,3 +1,4 @@
+//array of question objects hardcoded as the assignment says
 let questions = [
     {
         q: "Which planet is known as the 'Red Planet'?",
@@ -25,33 +26,41 @@ let questions = [
         correct: "Au"
     }
 ];
-
+//variables to keep track of the current index, and the selected answers
 let currentQuestionIndex = 0;
 let selectedAnswers = [-1,-1,-1,-1,-1]
 
+//as the site is loaded, this function will run the following events to begin the page
 document.addEventListener('DOMContentLoaded', (event) => {
-    start();
+    displayQuestion(currentQuestionIndex);
     addAnswerListeners();
     addNavigationListeners();
     setupModalEvents();
 });
 
-function start(){
-    displayQuestion(currentQuestionIndex);
-}
 //function to display the questions
 function displayQuestion(index) {
+    //grab the html elements for the current question and question number
     document.getElementById("question").innerHTML = questions[index].q;
     document.getElementById("num").innerHTML = "Question " + (index + 1);
+    //grabbing the list of answers as an array so we can update each answer choice below
     const answers = document.getElementById('answers').getElementsByTagName('li');
-
+    //display the answer options
     for (let i = 0; i < answers.length; i++) {
         answers[i].innerHTML = questions[index].a[i];
+        //remove the selected-answer class by default, but add it back if it is the answer selected
         answers[i].classList.remove('selected-answer');
         if (selectedAnswers[index] === answers[i].textContent) {
             answers[i].classList.add('selected-answer');
         }
     }
+    //if we are at the first question, disable the prev button
+    if(currentQuestionIndex === 0){
+        document.getElementById('prev-btn').disabled = true;
+    }else{
+        document.getElementById('prev-btn').disabled = false;
+    }
+    //If the current index answer is -1, then the right side returns true so the next button is disabled
     document.getElementById('next-btn').disabled = selectedAnswers[index] === -1;
 }
 
@@ -76,13 +85,12 @@ function addAnswerListeners() {
         });
     }
 }
-
+//adding listening functions for the navigation buttons
 function addNavigationListeners() {
     const prevButton = document.getElementById('prev-btn');
     const nextButton = document.getElementById('next-btn');
     //disabling the next button by default so the user cant go forward until selecting an answer
     nextButton.disabled = true;
-
     prevButton.addEventListener('click', function() {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
@@ -90,7 +98,6 @@ function addNavigationListeners() {
             nextButton.disabled = selectedAnswers[currentQuestionIndex] === -1;
         }
     });
-
     nextButton.addEventListener('click', function() {
         if (currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
@@ -105,7 +112,7 @@ function addNavigationListeners() {
 function showResults() {
     let score = 0;
     let questionsResultsContent = "";
-
+    //display the results in the modal in a clean way
     for (let i = 0; i < questions.length; i++) {
         questionsResultsContent += `<div class='question-result'>
             <strong>Question ${i + 1}:</strong><br>
@@ -117,7 +124,6 @@ function showResults() {
             score++;
         }
     }
-
     document.getElementById("questionsResults").innerHTML = questionsResultsContent;
     document.getElementById("totalScore").innerHTML = `Total score: ${score}/${questions.length}`;
     openModal();
@@ -125,40 +131,38 @@ function showResults() {
     document.getElementById('restart-btn').addEventListener('click', restartQuiz);
 }
 
-//When DOM loads, we setup the events for the modal. This will show the results and add functionality for closing the result box
+//when DOM loads, we setup the events for the modal. This will show the results and add functionality for closing the result box
 function setupModalEvents() {
-    // Get the modal
+    //get the modal
     var modal = document.getElementById("resultsModal");
-
-    // Get the <span> element that closes the modal
+    //get the span element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks on <span> (x), close the modal
+    //when the user clicks on span (x), close the modal
     span.onclick = function() {
         closeModal();
     }
-
-    // When the user clicks anywhere outside of the modal, close it
+    //when the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
             closeModal();
         }
     }
 }
-
+//function to open the modal
 function openModal() {
     document.getElementById("resultsModal").style.display = "block";
 }
-
+//function to close the modal
 function closeModal() {
     document.getElementById("resultsModal").style.display = "none";
 }
-//Function to restart the quiz - resets everything back to default
+//function to restart the quiz - resets everything back to default
 function restartQuiz() {
     currentQuestionIndex = 0;
     selectedAnswers.fill(-1);
-    document.getElementById('next-btn').disabled = true; // Ensure next button is disabled initially
-    document.getElementById('submit-btn').disabled = true; // Ensure submit button is disabled until all answers are selected
+    document.getElementById('next-btn').disabled = true; //ensure next button is disabled initially
+    document.getElementById('submit-btn').disabled = true; //ensure submit button is disabled until all answers are selected
     closeModal();
     displayQuestion(currentQuestionIndex);
 }
